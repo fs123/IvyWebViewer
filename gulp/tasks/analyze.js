@@ -11,7 +11,8 @@ var analyseTask = function() {
         var basePath = path.resolve('./src/');
         //util.log('Analyzing sources in ' + basePath);
 
-        return gulp.src([basePath + '/**/*.js'])
+        return gulp.src(
+                [basePath + '/**/*.js', '!' + basePath + '/app/js/*.js'])
             .pipe(jshint({
                 browser: true,
                 node: true,

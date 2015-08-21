@@ -5,6 +5,6 @@ var config = require('../config');
 
 gulp.task('clean', function (cb) {
     del([
-        config.app.dist
+        './dist'
     ], cb);
 });

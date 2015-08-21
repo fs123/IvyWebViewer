@@ -19,7 +19,7 @@ var browserifyTask = function() {
     b.transform('brfs');
     var bundle = function() {
         return b.bundle()
-            .pipe(source('WebViewer.js'))
+            .pipe(source('showcases.js'))
             .pipe(buffer())
             .pipe(sourcemaps.init({loadMaps: true}))
             //.pipe(uglify())

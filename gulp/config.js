@@ -2,12 +2,11 @@
 
 var config = {
     app: {
-        start: "./src/app/WebViewer.js",
+        start: "./src/app/showcases.js",
         src: "./src/app/",
         res: "./resources/",
-        dist: "./dist/"
+        dist: "./dist/app/"
     }
-
 };
 
 module.exports = config;

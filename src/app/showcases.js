@@ -22,38 +22,7 @@ bpmnViewer.importXML(qrDiagram, function(err) {
     var overlays = bpmnViewer.get('overlays');
     var pathMap = bpmnViewer.get('pathMap');
 
-    //alert(pathMap.pathMap['GATEWAY_EXCLUSIVE'].width);
-    //alert(bpmnViewer.get('eventBus'));
-
     // zoom to fit full viewport
     canvas.zoom('fit-viewport');
 
-    overlays.add('SCAN_OK', 'note', {
-        position: {
-            bottom: 0,
-            right: 0
-        },
-        html: '<div class="diagram-note">Mixed up the labels?</div>'
-    });
-
-
 });
-
-/*
-module.exports.show = function() {
-    var xml; // my BPMN 2.0 xml
-    var viewer = new BpmnViewer({ container: '#viewer' });
-
-    viewer.importXML(xml, function(err) {
-
-        if (err) {
-            console.log('error rendering', err);
-        } else {
-            console.log('rendered');
-        }
-    });
-};
-
-*/
-
-

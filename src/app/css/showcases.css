@@ -1,0 +1,21 @@
+.diagram-note {
+    background-color: rgba(66, 180, 21, 0.7);
+    color: White;
+    border-radius: 5px;
+    font-family: Arial;
+    font-size: 12px;
+    padding: 5px;
+    min-height: 16px;
+    width: 50px;
+    text-align: center;
+}
+
+.djs-overlay-number {
+    background-color: #0000ff;
+    color: White;
+    border-radius: 17px;
+    font-family: Arial;
+    font-size: 12px;
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+}

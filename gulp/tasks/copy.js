@@ -5,7 +5,7 @@ var config = require('../config');
 gulp.task('copy', ['copySources','copyResources']);
 
 gulp.task('copySources', function () {
-    return gulp.src([config.app.src+'**/*', '!' + config.app.src + '**/*.js'])
+    return gulp.src([config.app.src+'**/*'])
         .pipe(gulp.dest(config.app.dist));
 });
 
