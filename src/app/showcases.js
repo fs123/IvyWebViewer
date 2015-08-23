@@ -10,7 +10,7 @@ var bpmnViewer = new BpmnViewer({
 
 
 // inlined in result file via brfs
-var qrDiagram = fs.readFileSync(__dirname + '/../../resources/complex.bpmn', 'utf-8');
+var qrDiagram = fs.readFileSync(__dirname + '/../../resources/qr-code.bpmn', 'utf-8');
 
 bpmnViewer.importXML(qrDiagram, function(err) {
 
