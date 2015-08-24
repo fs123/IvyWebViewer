@@ -5,12 +5,14 @@ var BpmnViewer = require('../lib/IvyWebViewer/IvyWebViewer.js');
 //var $ = require('jquery');
 
 var bpmnViewer = new BpmnViewer({
-    container: '#viewer'
+    container: '#viewer',
+    width: '1000px',
+    height: '700px'
 });
 
 
 // inlined in result file via brfs
-var qrDiagram = fs.readFileSync(__dirname + '/../../resources/qr-code.bpmn', 'utf-8');
+var qrDiagram = fs.readFileSync(__dirname + '/../../resources/complex.bpmn', 'utf-8');
 
 bpmnViewer.importXML(qrDiagram, function(err) {
 
