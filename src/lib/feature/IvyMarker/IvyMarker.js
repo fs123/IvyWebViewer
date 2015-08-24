@@ -3,19 +3,15 @@
 var MARKER_EXECUTED_ELEMENT = 'executed-element',
     MARKER_EXECUTED_ARROW = 'executed-arrow';
 
-var executedElementIds = [
-    'START', 'FLOW_START_TO_MERGE', 'MERGE', 'FLOW_MERGE_TO_SCAN', 'SCAN_QR_CODE', 'FLOW_SCAN_TO_SCAN_OK', 'SCAN_OK', 'FLOW_SCAN_OK_TO_MERGE'
-];
-
 function IvyMarker(eventBus, canvas, elementRegistry) {
 
-    eventBus.on('import.success', function (event) {
-        // TODO: send request to REST API to get passed/highlighted elements
-        highlightExecutedElements(executedElementIds);
-    });
+    //eventBus.on('import.success', function (event) {
+    //    // TODO: send request to REST API to get passed/highlighted elements
+    //    highlightExecutedElements(executedElementIds);
+    //});
 
-    function highlightExecutedElements(elementIds) {
-        executedElementIds.forEach(function (elementId) {
+    this.highlightExecutedElements = function (elementIds) {
+        elementIds.forEach(function (elementId) {
             var element = elementRegistry.get(elementId);
 
             // skip elements that are not available in this diagram
