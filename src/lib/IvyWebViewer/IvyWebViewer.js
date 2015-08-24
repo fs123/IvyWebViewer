@@ -11,7 +11,8 @@ IvyWebViewer.prototype = Object.create(Viewer.prototype);
 module.exports = IvyWebViewer;
 
 IvyWebViewer.prototype._ivyModules = [
-    require('../feature/IvyRenderer')
+    require('../feature/IvyRenderer'),
+    require('../feature/IvyOverlays')
 ];
 
 IvyWebViewer.prototype._modules = [].concat(
