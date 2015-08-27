@@ -8,19 +8,40 @@ var OverlayBuilder = function(overlays) {
     var _style = "info";
     var _position = "tr";
 
-    var positions = {
+    var positionsText = {
         tr: {
-            right: -5
+            right: 10,
+            top: -35
         },
         br: {
-            right: 0,
-            bottom: -5
+            right: 10,
+            bottom: 10
         },
         bl: {
-            bottom: -5
+            bottom: 10,
+            left: -140
         }
     };
 
+    var positionsNumber = {
+        tr: {
+            right: 7,
+            top: -17
+        },
+        br: {
+            right: 7,
+            bottom: 7
+        },
+        bl: {
+            bottom: 7,
+            left: -21
+        }
+    };
+
+    var positions = {
+        number: positionsNumber,
+        text: positionsText
+    };
 
     return {
         forElement : function(elementId) {
@@ -75,7 +96,7 @@ var OverlayBuilder = function(overlays) {
 
         createAndAddOverlay : function () {
             return overlays.add(_elementId, _type, {
-                position: positions[_position],
+                position: positions[_type][_position],
                 html: '<div class="ivy-overlay ivy-overlay-' + _style + '">' + _text + '</div>'
             });
         }

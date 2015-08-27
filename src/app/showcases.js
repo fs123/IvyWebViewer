@@ -54,7 +54,7 @@ var initOverlays = function() {
             if (type === 'number') {
                 builder.withNumber('213');
             } else {
-                builder.withText('Reads in 99.8% <br/>the correct code.');
+                builder.withText('Reads in 99.8% the correct code.');
             }
 
             builder.asCustom(style);
