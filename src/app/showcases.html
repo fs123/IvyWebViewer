@@ -65,6 +65,7 @@
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
           <div class="list-group">
             <h4>Showcases</h4>
+            <p>Ivy Marker</p>
             <div class="btn-group" role="group" aria-label="...">
               <button type="button" class="btn btn-default">Mark Current Step</button>
               <button type="button" class="btn btn-default">Reset</button>
@@ -78,6 +79,47 @@
             <div class="btn-group" role="group" aria-label="...">
               <button type="button" class="btn btn-default">Mark Error Element</button>
               <button type="button" class="btn btn-default">Reset</button>
+            </div>
+            <p></p>
+            <p>Ivy Overlays</p>
+            <div class="btn-group" role="group">
+              <button type="button" id="show-text-overlay-button-info" class="btn btn-xs btn-info">Info</button>
+              <button type="button" id="show-text-overlay-button-success" class="btn btn-xs btn-success">Success</button>
+              <button type="button" id="show-text-overlay-button-warning" class="btn btn-xs btn-warning">Warning</button>
+              <button type="button" id="show-text-overlay-button-danger" class="btn btn-xs btn-danger">Danger</button>
+            </div>
+            <p></p>
+            <div class="btn-group">
+              <button type="button" id="show-text-overlay-button" class="btn  btn-default">Show Text Overlay</button>
+              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <button type="button" id="reset-text-overlay-button" class="btn btn-default">Reset</button>
+              <ul class="dropdown-menu">
+                <li><a href="#" id="show-text-overlay-button-tr">Top Right</a></li>
+                <li><a href="#" id="show-text-overlay-button-br">Bottom Right</a></li>
+                <li><a href="#" id="show-text-overlay-button-bl">Bottom Left</a></li>
+              </ul>
+            </div>
+            <p></p>
+            <div class="btn-group">
+              <button type="button" id="show-number-overlay-button" class="btn  btn-default">Show Number Overlay</button>
+              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <button type="button" id="reset-number-overlay-button" class="btn btn-default">Reset</button>
+              <ul class="dropdown-menu">
+                <li class="dropdown-header">Element</li>
+                <li><a href="#" id="show-number-overlay-button-tr">Top Right</a></li>
+                <li><a href="#" id="show-number-overlay-button-br">Bottom Right</a></li>
+                <li><a href="#" id="show-number-overlay-button-bl">Bottom Left</a></li>
+                <li class="dropdown-header">Arrow</li>
+                <li><a href="#" id="show-arrow-number-overlay-button-left">Left</a></li>
+                <li><a href="#" id="show-arrow-number-overlay-button-center">Center</a></li>
+                <li><a href="#" id="show-arrow-number-overlay-button-right">Right</a></li>
+              </ul>
             </div>
           </div>
         </div><!--/.sidebar-offcanvas-->
