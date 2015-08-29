@@ -5,6 +5,7 @@ var config = {
         start: "./src/app/showcases.js",
         src: "./src/app/",
         res: "./resources/",
+        assets: "./assets/",
         dist: "./dist/app/"
     },
     demo: {
