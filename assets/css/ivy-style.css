@@ -1,0 +1,11 @@
+.executed-arrow {
+    stroke-width: 10px;
+    stroke: #8888FF;
+    opacity: 0.2;
+}
+
+.djs-element.executed-element .djs-outline {
+    visibility: visible;
+    fill: #8888FF;
+    fill-opacity: 0.2;
+}

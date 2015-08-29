@@ -24,11 +24,26 @@ bpmnViewer.importXML(qrDiagram, function(err) {
     var overlays = bpmnViewer.get('overlays');
     var pathMap = bpmnViewer.get('pathMap');
 
+
     // zoom to fit full viewport
     canvas.zoom('fit-viewport');
 
+    initIvyMarker();
     initOverlays();
 });
+
+// IvyMarker: Highlight executed elements
+var initIvyMarker = function() {
+        // TODO: only used for the showcase, should be replaced with the REST API
+        var executedElementIds = [
+            'START', 'FLOW_START_TO_MERGE', 'MERGE', 'FLOW_MERGE_TO_SCAN', 'SCAN_QR_CODE', 'FLOW_SCAN_TO_SCAN_OK', 'SCAN_OK', 'FLOW_SCAN_OK_TO_MERGE'
+        ];
+        var ivyMarker = bpmnViewer.get('ivyMarker');
+
+        document.getElementById('mark-executed-path-button').onclick = function() {
+            ivyMarker.highlightExecutedElements(executedElementIds);
+        };
+    };
 
 
 ////// OVERLAYS ****************
