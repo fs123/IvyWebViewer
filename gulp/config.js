@@ -9,7 +9,7 @@ var config = {
         dist: "./dist/app/"
     },
     demo: {
-        dist: "./dist/demo/"
+        dist: "./dist/demo"
     }
 };
 
