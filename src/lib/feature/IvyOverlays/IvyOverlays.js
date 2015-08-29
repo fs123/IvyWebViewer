@@ -1,6 +1,8 @@
 'use strict';
 
-var OverlayBuilder = function(overlays) {
+var getBBox = require('../../../../node_modules/bpmn-js/node_modules/diagram-js/lib/util/Elements').getBBox;
+
+var createOverlayBuilder = function(overlays, elementRegistry) {
 
     var _elementId = "";
     var _text = "";
@@ -35,12 +37,41 @@ var OverlayBuilder = function(overlays) {
         bl: {
             bottom: 7,
             left: -21
+        },
+        left: {
+            top: -28,
+            left: 3
+        },
+        center: {
+            top: -28,
+            center: -15
+        },
+        right: {
+            top: -28,
+            right: 33
         }
     };
 
     var positions = {
         number: positionsNumber,
         text: positionsText
+    };
+
+    var getPosition = function () {
+        var position = positions[_type][_position];
+        if (_position === 'center') {
+            var element = elementRegistry.get(_elementId);
+            var width;
+            if (element.waypoints) {
+                width = getBBox(element).width;
+            } else {
+                width = element.width;
+            }
+
+            position.left = position.center + (width/2);
+        }
+
+        return position;
     };
 
     return {
@@ -81,6 +112,10 @@ var OverlayBuilder = function(overlays) {
             return this;
         },
 
+        onPosition : function(position) {
+            _position = position;
+            return this;
+        },
         onTopRight : function() {
             _position = "tr";
             return this;
@@ -95,8 +130,9 @@ var OverlayBuilder = function(overlays) {
         },
 
         createAndAddOverlay : function () {
+            var position = getPosition();
             return overlays.add(_elementId, _type, {
-                position: positions[_type][_position],
+                position: position,
                 html: '<div class="ivy-overlay ivy-overlay-' + _style + '">' + _text + '</div>'
             });
         }
@@ -105,14 +141,14 @@ var OverlayBuilder = function(overlays) {
 };
 
 
-function IvyOverlays(overlays) {
+function IvyOverlays(overlays, elementRegistry) {
 
     var remove = function(id) {
         return overlays.remove(id);
     };
 
     var createBuilder = function() {
-        return new OverlayBuilder(overlays);
+        return createOverlayBuilder(overlays, elementRegistry);
     };
 
     this.createOverlayBuilder = createBuilder;
@@ -120,6 +156,6 @@ function IvyOverlays(overlays) {
 }
 
 
-IvyOverlays.$inject = [ 'overlays'];
+IvyOverlays.$inject = [ 'overlays', 'elementRegistry'];
 
 module.exports = IvyOverlays;

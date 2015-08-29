@@ -40,17 +40,21 @@ var initOverlays = function() {
         var lastStyle = 'success';
         var lastPosition = 'tr';
         var lastType = 'text';
-
-        var _addNote = function(type, position, style) {
+        var lastElement = 'FLOW_SCAN_OK_TO_OPEN_PRODUCT';
+        var _addNote = function(type, position, style, element) {
             if (addedNote) {
                 removeNote();
             }
             lastPosition = position;
             lastType = type;
             lastStyle = style;
+            if (element === undefined) {
+                element = 'SCAN_QR_CODE';
+            }
+            lastElement = element;
             var ivyOverlays = bpmnViewer.get('ivyOverlays');
             var builder = ivyOverlays.createOverlayBuilder()
-                .forElement('SCAN_QR_CODE');
+                .forElement(element);
             if (type === 'number') {
                 builder.withNumber('213');
             } else {
@@ -58,13 +62,8 @@ var initOverlays = function() {
             }
 
             builder.asCustom(style);
-            if (position === 'tr') {
-                builder.onTopRight();
-            } else if (position === 'bl') {
-                builder.onBottomLeft();
-            } else {
-                builder.onBottomRight();
-            }
+            builder.onPosition(position);
+
             addedNote = builder.createAndAddOverlay();
         };
 
@@ -87,14 +86,14 @@ var initOverlays = function() {
 
         return {
             remove: removeNote,
-            showText : function (position) {
-                _addNote('text', position, lastStyle);
+            showText : function (position, element) {
+                _addNote('text', position, lastStyle, element);
             },
-            showNumber : function (position) {
-                _addNote('number', position, lastStyle);
+            showNumber : function (position, element) {
+                _addNote('number', position, lastStyle, element);
             },
             showAs: function (style) {
-                _addNote(lastType, lastPosition, style);
+                _addNote(lastType, lastPosition, style, lastElement);
             }
         };
 
@@ -116,5 +115,10 @@ var initOverlays = function() {
     document.getElementById('show-number-overlay-button-br').onclick = function() {noteManager.showNumber('br');};
     document.getElementById('show-number-overlay-button-bl').onclick = function() {noteManager.showNumber('bl');};
     document.getElementById('reset-number-overlay-button').onclick = (noteManager.remove);
+
+
+    document.getElementById('show-arrow-number-overlay-button-left').onclick = function() {noteManager.showNumber('left', 'FLOW_MERGE_TO_SCAN');};
+    document.getElementById('show-arrow-number-overlay-button-center').onclick = function() {noteManager.showNumber('center', 'FLOW_MERGE_TO_SCAN');};
+    document.getElementById('show-arrow-number-overlay-button-right').onclick = function() {noteManager.showNumber('right', 'FLOW_MERGE_TO_SCAN');};
 
 };
