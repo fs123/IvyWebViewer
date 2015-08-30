@@ -42,4 +42,7 @@ var initIvyMarker = function() {
     document.getElementById('mark-executed-path-button').onclick = function() {
         ivyMarker.highlightExecutedElements(executedElementIds)
     };
+    document.getElementById('reset-executed-path-button').onclick = function() {
+        ivyMarker.unhighlightAllElements();
+    }
 }
