@@ -17,7 +17,7 @@ function IvyMarker(canvas, elementRegistry) {
     };
 
     /**
-     *
+     * Iterates all elements and removes highlighting.
      */
     var unhighlightAll = function () {
         var allElements = elementRegistry.getAll();
@@ -28,7 +28,7 @@ function IvyMarker(canvas, elementRegistry) {
                 unhighlightElement(element);
             }
         });
-    }
+    };
 
     var highlightElementById = function (elementId) {
         var element = elementRegistry.get(elementId);
@@ -69,7 +69,7 @@ function IvyMarker(canvas, elementRegistry) {
         if(arrowClone) {
             arrowClone.remove();
         }
-    }
+    };
 
     var unhighlightElement = function (element) {
         var djsOutline = document.querySelectorAll('*[data-element-id=' + element.id + '] .djs-outline')[0]; // get the first (and only) element
@@ -77,7 +77,7 @@ function IvyMarker(canvas, elementRegistry) {
         djsOutline.removeAttribute('ry');
         // add the marker
         canvas.removeMarker(element, MARKER_EXECUTED_ELEMENT);
-    }
+    };
 
     this.highlightExecutedElements = highlightElementsById;
     this.unhighlightAllElements = unhighlightAll;
