@@ -45,6 +45,9 @@ function IvyMarker(canvas, elementRegistry) {
 
     var highlightSequenceFlow = function (element) {
         var djsVisual = document.querySelectorAll('*[data-element-id=' + element.id + '] .djs-visual')[0]; // get the first (and only) element
+        if(djsVisual.childNodes[1]) {
+            return;
+        }
         var arrow = djsVisual.firstChild;
         // clone the arrow and set another CSS style (no marker-end, wider stroke, less opacity, ...)
         var arrowClone = arrow.cloneNode(true);
