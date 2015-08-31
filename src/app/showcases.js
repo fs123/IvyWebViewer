@@ -1,5 +1,7 @@
 'use strict';
-
+global.ivyviewer = {
+    instance: undefined
+};
 var fs = require('fs');
 var BpmnViewer = require('../lib/IvyWebViewer/IvyWebViewer.js');
 //var $ = require('jquery');
@@ -10,11 +12,16 @@ var bpmnViewer = new BpmnViewer({
     height: '700px'
 });
 
+global.ivyviewer.instance = bpmnViewer;
 
 // inlined in result file via brfs
-var qrDiagram = fs.readFileSync(__dirname + '/../../resources/complex.bpmn', 'utf-8');
+var callerDiagram = fs.readFileSync(__dirname + '/../../resources/complex.bpmn', 'utf-8');
+var callsubDiagram = fs.readFileSync(__dirname + '/../../resources/OpenProduct_Callable.bpmn', 'utf-8');
 
-bpmnViewer.importXML(qrDiagram, function(err) {
+global.ivyviewer.file1 = callerDiagram;
+global.ivyviewer.file2 = callsubDiagram;
+
+bpmnViewer.importXML(callerDiagram, function(err) {
 
     if (err) {
         return console.error('could not import BPMN 2.0 diagram', err);

@@ -38,10 +38,12 @@
         <outgoing>FLOW_SCAN_OK_TO_OPEN_PRODUCT</outgoing>
         <outgoing>FLOW_SCAN_OK_TO_MERGE</outgoing>
     </exclusiveGateway>
-    <task completionQuantity="1" id="OPEN_PRODUCT" isForCompensation="false" name="Open product information in mobile  app" startQuantity="1">
+
+    <callActivity id="OPEN_PRODUCT" name="Open product information in mobile app" calledElement="MyCallableProcess_X">
         <incoming>FLOW_SCAN_OK_TO_OPEN_PRODUCT</incoming>
         <outgoing>FLOW_OPEN_PRODUCT_TO_END</outgoing>
-    </task>
+    </callActivity>
+
     <endEvent id="END" name="Is informed">
         <incoming>FLOW_OPEN_PRODUCT_TO_END</incoming>
     </endEvent>
