@@ -45,7 +45,7 @@ var initIvyMarker = function() {
         };
         document.getElementById('reset-executed-path-button').onclick = function() {
             ivyMarker.unhighlightAllElements();
-        }
+        };
     };
 
 
