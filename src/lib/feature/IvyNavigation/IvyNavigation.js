@@ -1,54 +1,62 @@
 'use strict';
+var isFunction = require('lodash/lang/isFunction'),
+    forEach = require('lodash/collection/forEach');
 
-function IvyNavigation(contextPad) {
+function IvyNavigation(contextPad, processLoader) {
 
-    var createAction = function (title, className, clickAction) {
+    var createActionWithClickActionFactory = function (title, className, clickActionFactory) {
         return {
             group: 'tools',
             className: className || 'ivy-navigation-entry',
             title: title,
             action: {
-                click: clickAction
+                clickActionFactory: clickActionFactory
             }
+        };
+    };
+
+    var loadProcessCallback = function(err){
+        if (err) {
+            return console.error('could not load process', err);
+        }
+        var canvas = global.ivyviewer.instance.get('canvas');
+        // zoom to fit full viewport
+        canvas.zoom('fit-viewport');
+    };
+
+    var loadProcess = function(pid) {
+        if (!pid) {
+            console.error("INVALID PARAMETER PID: " + pid);
+        }
+
+        var process = processLoader.getProcess(pid);
+        if (!process) {
+            console.error("Could not find process with pid: " + pid);
+        }
+
+        global.ivyviewer.instance.importXML(process, loadProcessCallback);
+    };
+
+    var loadCallableProcessActionFactory = function(element) {
+        var pid = element.businessObject.calledElement;
+        return function() {
+            loadProcess(pid);
+        };
+    };
+
+    var loadCallingProcessActionFactory = function(element) {
+        var pid = element.businessObject.id;
+        return function() {
+            loadProcess(pid);
         };
     };
 
     var handlers = {
         'bpmn:CallActivity': {
-            openCallActivity: createAction('Go to referenced process', 'glyphicon-eye-open', function (event) {
-                global.ivyviewer.instance.importXML(global.ivyviewer.file2,
-                    function(err) {
-
-                        if (err) {
-                            return console.error('could not import BPMN 2.0 diagram', err);
-                        }
-
-                        var canvas = global.ivyviewer.instance.get('canvas');
-
-                        // zoom to fit full viewport
-                        canvas.zoom('fit-viewport');
-
-                    });
-
-            })
+            openCallActivity: createActionWithClickActionFactory('Go to referenced process', 'glyphicon-eye-open', loadCallableProcessActionFactory)
         },
         'bpmn:StartEvent': {
-            openCaller: createAction('Go to referenced process', 'glyphicon-eye-open', function (event) {
-                global.ivyviewer.instance.importXML(global.ivyviewer.file1,
-                    function(err) {
-
-                        if (err) {
-                            return console.error('could not import BPMN 2.0 diagram', err);
-                        }
-
-                        var canvas = global.ivyviewer.instance.get('canvas');
-
-                        // zoom to fit full viewport
-                        canvas.zoom('fit-viewport');
-
-                    });
-
-            })
+            openCaller: createActionWithClickActionFactory('Go to referenced process', 'glyphicon-eye-open', loadCallingProcessActionFactory)
         }
     };
 
@@ -58,6 +66,13 @@ function IvyNavigation(contextPad) {
         if (!entries) {
             return {};
         }
+
+        forEach(entries, function(entry, key) {
+            if (isFunction(entry.action.clickActionFactory)) {
+                entry.action.click = entry.action.clickActionFactory(element);
+            }
+        });
+
         return entries;
     };
 
@@ -66,6 +81,6 @@ function IvyNavigation(contextPad) {
     });
 }
 
-IvyNavigation.$inject = ['contextPad'];
+IvyNavigation.$inject = ['contextPad', 'processLoader'];
 
 module.exports = IvyNavigation;

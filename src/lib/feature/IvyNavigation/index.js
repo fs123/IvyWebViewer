@@ -3,5 +3,6 @@ module.exports = {
         require('bpmn-js/node_modules/diagram-js/lib/features/context-pad')
     ],
     __init__: [ 'ivyNavigation' ],
-    ivyNavigation: [ 'type', require('./IvyNavigation') ]
+    ivyNavigation: [ 'type', require('./IvyNavigation') ],
+    processLoader: [ 'type', require('./ProcessLoader') ]
 };
