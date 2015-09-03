@@ -6,7 +6,8 @@ var config = {
         src: "./src/app/",
         res: "./resources/",
         assets: "./assets/",
-        dist: "./dist/app/"
+        dist: "./dist/app/",
+        tests: "./test"
     },
     demo: {
         dist: "./dist/demo"
