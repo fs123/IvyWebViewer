@@ -30,6 +30,8 @@
     "gulp-sourcemaps": "^1.5.0",
     "gulp-util": "^3.0.6",
     "jasmine": "^2.3.2",
+    "jshint-stylish": "^2.0.1",
+    "log4js": "^0.6.26",
     "path": "0.11.14",
     "require-dir": "^0.1.0",
     "vinyl-buffer": "^1.0.0",

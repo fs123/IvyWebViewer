@@ -9,7 +9,7 @@ var analyseTask = function() {
 
     var analyse = function() {
         var basePath = path.resolve('./src/');
-        //util.log('Analyzing sources in ' + basePath);
+        gutil.log('Analyzing sources in ' + basePath);
 
         return gulp.src(
                 [basePath + '/**/*.js', '!' + basePath + '/app/js/*.js'])
@@ -26,7 +26,7 @@ var analyseTask = function() {
     };
 
     return analyse();
-}
+};
 
 gulp.task('analyse', function() {
     return analyseTask()

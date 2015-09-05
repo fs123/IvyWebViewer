@@ -8,12 +8,10 @@ The following function is a simple example.
 
 console.log("Initializing helper functions");
 
-function setUp(name) {
+global.setUp = function (name) {
     console.log('setting up test: ' + name);
-}
-global.setUp = setUp;
+};
 
-function tearDown() {
-    console.log('tearing down test');
-}
-global.tearDown = tearDown;
+global.tearDown = function (name) {
+    console.log('tearing down test: ' + name);
+};
