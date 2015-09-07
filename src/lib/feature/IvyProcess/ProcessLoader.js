@@ -18,6 +18,21 @@ function ProcessLoader() {
         return resources[pid];
     };
 
+    var _findCallersOfProcess = function(pid) {
+        return [
+            {
+                path: "/",
+                name: "QR Code Scanner",
+                pid: BACK_REFERENCE
+            },
+            {
+                path: "/",
+                name: "Test QR Code Scanner",
+                pid: BACK_REFERENCE
+            }
+        ];
+    };
+
     var _getProcesses = function() {
         return [
             {
@@ -35,6 +50,7 @@ function ProcessLoader() {
 
     return {
         getProcesses : _getProcesses,
+        findCallersOfProcess: _findCallersOfProcess,
         getProcess: _getProcess
     };
 }
