@@ -1,55 +1,34 @@
 'use strict';
+
 var isFunction = require('lodash/lang/isFunction'),
     forEach = require('lodash/collection/forEach');
 
-function IvyNavigation(contextPad, processLoader, popupMenu, canvas) {
+function IvyNavigation(contextPad, ivyProcess, popupMenu, canvas) {
 
-    var createActionWithClickAction = function (title, className, clickAction) {
-        return {
-            group: 'tools',
-            className: className || 'ivy-navigation-entry',
-            title: title,
-            action: {
-                click: clickAction
-            }
-        };
-    };
-
-    var loadProcessCallback = function(err){
-        if (err) {
-            return console.error('could not load process', err);
-        }
-        var canvas = global.ivyviewer.instance.get('canvas');
-        // zoom to fit full viewport
-        canvas.zoom('fit-viewport');
-    };
 
     var loadProcess = function(pid) {
-        if (!pid) {
-            console.error("INVALID PARAMETER PID: " + pid);
-        }
-
-        var process = processLoader.getProcess(pid);
-        if (!process) {
-            console.error("Could not find process with pid: " + pid);
-        }
-
-        global.ivyviewer.instance.importXML(process, loadProcessCallback);
+        ivyProcess.loadProcess(pid);
     };
 
-    var loadCallableProcessAction = function(event, element) {
+    var loadCallableProcess = function(event, element) {
         var pid = element.businessObject.calledElement;
         loadProcess(pid);
     };
 
-    var findCallingProcessAction = function(event, element) {
-        var pid = element.businessObject.id;
+    var getProcessName = function (entry) {
+        var label = '';
+        if (entry.namespace) {
+            label = entry.namespace + '.';
+        }
+        label += entry.name;
+        return label;
+    };
 
-        var foundElements = processLoader.findCallersOfProcess(pid);
+    function createPopupMenuEntries(foundElements) {
         var entries = [];
         forEach(foundElements, function(entry) {
             entries.push({
-                label: entry.path + entry.name,
+                label: getProcessName(entry),
                 className: '',
                 id: entry.pid,
                 action: function () {
@@ -57,6 +36,13 @@ function IvyNavigation(contextPad, processLoader, popupMenu, canvas) {
                 }
             });
         });
+        return entries;
+    }
+
+    var showCallingProcess = function(event, element) {
+        var pid = element.businessObject.id;
+        var foundElements = ivyProcess.findCallersOfProcess(pid);
+        var entries = createPopupMenuEntries(foundElements);
 
         popupMenu.open({
             className: 'navigation-menu',
@@ -66,17 +52,6 @@ function IvyNavigation(contextPad, processLoader, popupMenu, canvas) {
             entries: entries
         });
     };
-
-    var handlers = {
-        'bpmn:CallActivity': {
-            openCallActivity:
-                createActionWithClickAction('Go to sub process', 'glyphicon-eye-open', loadCallableProcessAction)
-        },
-        'bpmn:StartEvent': {
-            openCaller: createActionWithClickAction('Find calling processes', 'glyphicon-eye-open', findCallingProcessAction)
-        }
-    };
-
 
     function getPopupMenuPosition (element) {
 
@@ -99,17 +74,34 @@ function IvyNavigation(contextPad, processLoader, popupMenu, canvas) {
         return pos;
     }
 
+    var handlers = {
+        'bpmn:CallActivity': {
+            openCallActivity: {
+                group: 'tools',
+                className: 'glyphicon-eye-open',
+                title: 'Go to sub process',
+                action: {
+                    click: loadCallableProcess
+                }
+            }
+        },
+        'bpmn:StartEvent': {
+            openCaller: {
+                group: 'tools',
+                className: 'glyphicon-eye-open',
+                title: 'Find calling processes',
+                action: {
+                    click: showCallingProcess
+                }
+            }
+        }
+    };
+
     var getEntries = function (element) {
         var entries = handlers[element.type];
         if (!entries) {
             return {};
         }
-
-        forEach(entries, function(entry) {
-            if (isFunction(entry.action.clickActionFactory)) {
-                entry.action.click = entry.action.clickActionFactory(element);
-            }
-        });
 
         return entries;
     };
@@ -119,6 +111,6 @@ function IvyNavigation(contextPad, processLoader, popupMenu, canvas) {
     });
 }
 
-IvyNavigation.$inject = ['contextPad', 'processLoader', 'popupMenu', 'canvas'];
+IvyNavigation.$inject = ['contextPad', 'ivyProcess', 'popupMenu', 'canvas'];
 
 module.exports = IvyNavigation;

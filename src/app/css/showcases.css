@@ -159,3 +159,10 @@
 .djs-popup-header .entry:last-child {
     margin-right: 3px;
 }
+
+.djs-popup {
+    background: #FAFAFA;
+    border: solid 1px #CCC;
+    border-radius: 2px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}

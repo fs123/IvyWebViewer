@@ -1,8 +1,11 @@
 'use strict';
 
 var fs = require('fs');
+//var Client = require('node-rest-client').Client;
+//var config = require('./RestClientConfig');
 
-function ProcessLoader() {
+
+function RestClient() {
     var BACK_REFERENCE = "StartEvent_1";
     var PID2 = "MyCallableProcess_X";
 
@@ -14,19 +17,32 @@ function ProcessLoader() {
     resources[BACK_REFERENCE] = callerProcess;
     resources[PID2] = callableProcess;
 
-    var _getProcess = function(pid) {
-        return resources[pid];
+    var _getProcess = function(pid, sucessCallback, errorCallback) {
+        sucessCallback(resources[pid]);
+        /*
+        var client = new Client();
+        var request = client.get(config.baseUrl + "process/", args, sucessCallback);
+
+        if (errorCallback) {
+            //request.on('error', errorCallback);
+        }
+        */
+        //return resources[pid];
     };
 
     var _findCallersOfProcess = function(pid) {
+        if (pid !== BACK_REFERENCE) {
+            return [];
+        }
         return [
             {
-                path: "/",
+                path: "resources/complex.bpmn",
+                namespace: "",
                 name: "QR Code Scanner",
                 pid: BACK_REFERENCE
             },
             {
-                path: "/",
+                path: "resources/complex.bpmn",
                 name: "Test QR Code Scanner",
                 pid: BACK_REFERENCE
             }
@@ -36,12 +52,14 @@ function ProcessLoader() {
     var _getProcesses = function() {
         return [
             {
-                path: "/",
+                path: "resources/complex.bpmn",
+                namespace: "",
                 name: "QR Code Scanner",
                 pid: BACK_REFERENCE
             },
             {
-                path: "/",
+                path: "resources/complex.bpmn",
+                namespace: "",
                 name: "Callable Process",
                 pid: PID2
             }
@@ -55,4 +73,4 @@ function ProcessLoader() {
     };
 }
 
-module.exports = ProcessLoader;
+module.exports = RestClient;

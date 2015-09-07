@@ -1,4 +1,4 @@
 module.exports = {
-    processLoader: [ 'type', require('./ProcessLoader') ],
-    viewLoader: [ 'type', require('./ViewLoader') ]
+    restClient: [ 'type', require('./RestClient') ],
+    ivyProcess: [ 'type', require('./IvyProcess') ]
 };
