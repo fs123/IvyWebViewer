@@ -84,7 +84,7 @@
 }
 
 .djs-context-pad .entry:hover {
-    background: rgb(255, 252, 176);
+    background: #bcca4f;
 }
 
 .djs-context-pad.open {
@@ -116,7 +116,7 @@
 
 .djs-popup .entry:hover,
 .djs-popup .entry.active:hover {
-    background: rgb(255, 252, 176);
+    background: #bcca4f;
 }
 
 .djs-popup .entry.disabled {
@@ -165,4 +165,19 @@
     border: solid 1px #CCC;
     border-radius: 2px;
     box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+.glyphicon-eye-open {
+top: 1px;
+display: inline-block;
+font-family: 'Glyphicons Halflings';
+font-style: normal;
+font-weight: 400;
+line-height: 1;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+
+.glyphicon-eye-open::before {
+    content: "\e105";
 }

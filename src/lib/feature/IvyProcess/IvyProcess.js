@@ -30,8 +30,6 @@ function IvyProcess(restClient) {
     this.loadProcess = _loadProcess;
 }
 
-
-
 IvyProcess.$inject = ['restClient'];
 
 module.exports = IvyProcess;

@@ -1,8 +1,6 @@
 'use strict';
 
 var fs = require('fs');
-//var Client = require('node-rest-client').Client;
-//var config = require('./RestClientConfig');
 
 
 function RestClient() {
@@ -19,20 +17,14 @@ function RestClient() {
 
     var _getProcess = function(pid, sucessCallback, errorCallback) {
         sucessCallback(resources[pid]);
-        /*
-        var client = new Client();
-        var request = client.get(config.baseUrl + "process/", args, sucessCallback);
-
-        if (errorCallback) {
-            //request.on('error', errorCallback);
-        }
-        */
-        //return resources[pid];
     };
 
     var _findCallersOfProcess = function(pid) {
         if (pid !== BACK_REFERENCE) {
-            return [];
+            return [{
+                name: "No caller process found",
+                pid: "UNDEFINED"
+            }];
         }
         return [
             {
