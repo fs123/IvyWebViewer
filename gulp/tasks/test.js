@@ -4,11 +4,16 @@ var Server = require('karma').Server;
 /**
  * Run test once and exit
  */
-gulp.task('test', function (done) {
+gulp.task('karma:single', function (done) {
     new Server({
         configFile: __dirname + '/../../test/karma.conf.js',
-        singleRun: true
+        singleRun: true,
+        autoWatch: false
     }, done).start();
+});
+
+gulp.task('karma:unit', function() {
+
 });
 
 //var Jasmine = require('jasmine');
