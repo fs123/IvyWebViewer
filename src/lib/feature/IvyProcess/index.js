@@ -1,4 +1,6 @@
 module.exports = {
-    restClient: [ 'type', require('./RestClient') ],
-    ivyProcess: [ 'type', require('./IvyProcess') ]
+    __init__: [ '_ivyHashNavigation' ],
+    _restClient: [ 'type', require('./RestClient') ],
+    ivyProcess: [ 'type', require('./IvyProcess') ],
+    _ivyHashNavigation: [ 'type', require('./HashNavigation') ]
 };

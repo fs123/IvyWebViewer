@@ -5,7 +5,6 @@ var isFunction = require('lodash/lang/isFunction'),
 
 function IvyNavigation(contextPad, ivyProcess, popupMenu, canvas) {
 
-
     var loadProcess = function(pid) {
         ivyProcess.loadProcess(pid);
     };
@@ -24,7 +23,7 @@ function IvyNavigation(contextPad, ivyProcess, popupMenu, canvas) {
         return label;
     };
 
-    function createPopupMenuEntries(foundElements) {
+    var createPopupMenuEntries = function (foundElements) {
         var entries = [];
         forEach(foundElements, function(entry) {
             entries.push({
@@ -37,7 +36,7 @@ function IvyNavigation(contextPad, ivyProcess, popupMenu, canvas) {
             });
         });
         return entries;
-    }
+    };
 
     var showCallingProcess = function(event, element) {
         var pid = element.businessObject.id;
@@ -76,7 +75,7 @@ function IvyNavigation(contextPad, ivyProcess, popupMenu, canvas) {
 
     var handlers = {
         'bpmn:CallActivity': {
-            openCallActivity: {
+            goToLinkedSubProcess: {
                 group: 'tools',
                 className: 'glyphicon-eye-open',
                 title: 'Go to sub process',
@@ -86,7 +85,7 @@ function IvyNavigation(contextPad, ivyProcess, popupMenu, canvas) {
             }
         },
         'bpmn:StartEvent': {
-            openCaller: {
+            showCallingProcesses: {
                 group: 'tools',
                 className: 'glyphicon-eye-open',
                 title: 'Find calling processes',

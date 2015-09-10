@@ -5,6 +5,7 @@ var fs = require('fs');
 
 function RestClient() {
     var BACK_REFERENCE = "StartEvent_1";
+    var PID1 = "EAE484DC4A04";
     var PID2 = "MyCallableProcess_X";
 
     // inlined in result file via brfs
@@ -12,7 +13,7 @@ function RestClient() {
     var callableProcess = fs.readFileSync(__dirname + '/../../../../resources/OpenProduct_Callable.bpmn', 'utf-8');
 
     var resources = {};
-    resources[BACK_REFERENCE] = callerProcess;
+    resources[PID1] = callerProcess;
     resources[PID2] = callableProcess;
 
     var _getProcess = function(pid, sucessCallback, errorCallback) {
@@ -22,7 +23,7 @@ function RestClient() {
     var _findCallersOfProcess = function(pid) {
         if (pid !== BACK_REFERENCE) {
             return [{
-                name: "No caller process found",
+                name: "No caller process(es) found",
                 pid: "UNDEFINED"
             }];
         }
@@ -31,12 +32,12 @@ function RestClient() {
                 path: "resources/complex.bpmn",
                 namespace: "",
                 name: "QR Code Scanner",
-                pid: BACK_REFERENCE
+                pid: PID1
             },
             {
                 path: "resources/complex.bpmn",
                 name: "Test QR Code Scanner",
-                pid: BACK_REFERENCE
+                pid: PID1
             }
         ];
     };
@@ -47,7 +48,7 @@ function RestClient() {
                 path: "resources/complex.bpmn",
                 namespace: "",
                 name: "QR Code Scanner",
-                pid: BACK_REFERENCE
+                pid: PID1
             },
             {
                 path: "resources/complex.bpmn",

@@ -1,35 +1,41 @@
 'use strict';
+/**
+ * Firing Events:
+ * - process.loading
+ * - process.loaded
+ * - process.loadFailed
+ * @param restClient
+ * @param eventBus
+ * @constructor
+ */
 
-function IvyProcess(restClient) {
+function IvyProcess(restClient, eventBus) {
 
-    var loadProcessCallback = function(err){
-        if (err) {
-            return console.error('could not load process', err);
-        }
-        var canvas = global.ivyviewer.instance.get('canvas');
-        // zoom to fit full viewport
-        canvas.zoom('fit-viewport');
-    };
-
-    var _loadProcess = function(pid) {
+    var loadProcess = function(pid) {
         if (!pid) {
             console.error("Invalid parameter pid: " + pid);
         }
-
+        eventBus.fire('process.loading', {pid: pid});
         restClient.getProcess(pid,
-                function(process){
-                    global.ivyviewer.instance.importXML(process, loadProcessCallback);
-                },
-                function(error){
-                    console.error("Could not find process with pid: " + pid + " - " + error);
+                function (process){
+                    global.ivyviewer.importXML(process, function(err){
+                        var eventBus = global.ivyviewer.get('eventBus');
+                        if (!err) {
+                            eventBus.fire('process.loaded', {pid: pid});
+                            var canvas = global.ivyviewer.get('canvas');
+                            canvas.zoom('fit-viewport');
+                        } else {
+                            eventBus.fire('process.loadFailed', {pid: pid});
+                        }
+                    });
                 }
             );
     };
 
     this.findCallersOfProcess = restClient.findCallersOfProcess;
-    this.loadProcess = _loadProcess;
+    this.loadProcess = loadProcess;
 }
 
-IvyProcess.$inject = ['restClient'];
+IvyProcess.$inject = ['_restClient', 'eventBus'];
 
 module.exports = IvyProcess;
