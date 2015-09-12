@@ -8,7 +8,7 @@ module.exports = function (karmaConfig) {
         basePath: '../',
 
         // frameworks to use available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-        frameworks: ['browserify', 'jasmine'],
+        frameworks: ['browserify', 'mocha', 'chai'],
 
         // list of files / patterns to load in the browser
         files: [

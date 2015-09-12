@@ -1,5 +1,8 @@
 'use strict';
 
+// use the helper from bpmn-js
+module.exports = require('bpmn-js/test/helper');
+
 /* helpers, which should be globally accessible, should be defined here and be bound to the global object.
  see https://github.com/jasmine/jasmine-npm/issues/25
 
