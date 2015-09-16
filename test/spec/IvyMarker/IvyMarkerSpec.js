@@ -1,29 +1,30 @@
 'use strict';
 
 var testHelper = require('../helpers/index.js'),
+    coreModule = require('bpmn-js/lib/core'),
     IvyMarker = require('../../../src/lib/feature/IvyMarker');
+
+var xml = require('../../fixtures/simple.bpmn');
 
 describe('IvyMarker', function () {
 
-    // Consider that a direct call won't work ... e.g.: beforeEach(setUp());
-    beforeEach(function () {
-        testHelper.setUp('IvyMarker test');
-        var container = '<div id="container"></div>';
-        document.body.insertAdjacentHTML('afterbegin', container);
-    });
+    beforeEach(bootstrapViewer(xml, { modules: [ coreModule, IvyMarker ] }));
 
     afterEach(function () {
-        testHelper.tearDown('IvyMarker test');
-        document.body.removeChild(document.getElementById('container'));
+        //testHelper.tearDown('IvyMarker test');
+        //document.body.removeChild(document.getElementById('container'));
     });
 
-    it('test case 1', function () {
-        var test = document.getElementById('container');
-        expect(test).not.to.equal('undefined');
-    });
+    it('should bootstrap diagram with ivyMarker', inject(function (ivyMarker) {
+        expect(ivyMarker).to.be.an('object');
+    }));
 
-    //it('second test case', function () {
-    //    expect(true).toBe(true);
-    //});
+    it('single element has executed-element marker after highlighting', inject(function (ivyMarker, elementRegistry, canvas) {
+        ivyMarker.highlightExecutedElements(['Task_1']);
+        var element = elementRegistry.get('Task_1');
+        expect(element).to.be.an('object');
+        expect(canvas.hasMarker(element, 'executed-element')).to.be(true);
+        //expect(true).to.be.true;
+    }));
 
 });

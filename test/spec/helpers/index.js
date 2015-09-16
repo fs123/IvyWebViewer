@@ -9,14 +9,12 @@ module.exports = require('bpmn-js/test/helper');
  The following function is a simple example.
  */
 
-console.log("Initializing helper functions");
-
 function setUp(name) {
     console.log('setting up test: ' + name);
-};
+}
 module.exports.setUp = (window || global).setUp = setUp;
 
 function tearDown(name) {
     console.log('tearing down test: ' + name);
-};
+}
 module.exports.tearDown = (window || global).tearDown = tearDown;

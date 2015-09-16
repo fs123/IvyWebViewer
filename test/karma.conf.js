@@ -53,7 +53,8 @@ module.exports = function (karmaConfig) {
 
         browserify: {
             debug: true,
-            transform: ['brfs']
+            transform: [ [ 'stringify', { global: true, extensions: [ '.bpmn', '.xml', '.css' ] } ] ]
+            //transform: ['brfs']
         },
 
         phantomjsLauncher: {
