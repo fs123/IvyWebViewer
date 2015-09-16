@@ -7,7 +7,7 @@ function IvyRenderer(bpmnRenderer, ivyElements) {
     var decoratorDrawShape = function(parent, element) {
         var elementHandler = ivyElements.forType(element.type);
         if (elementHandler) {
-            return elementHandler.draw(parent, element);
+            return elementHandler.draw(parent, element, decoratedDrawShape);
         } else {
             return decoratedDrawShape(parent, element);
         }

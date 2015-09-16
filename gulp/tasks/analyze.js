@@ -8,11 +8,13 @@ var jshint = require('gulp-jshint');
 var analyseTask = function() {
 
     var analyse = function() {
-        var basePath = path.resolve('./src/');
+        var srcPath = path.resolve('./src/');
+        var testPath = path.resolve('./test/');
         //util.log('Analyzing sources in ' + basePath);
 
         return gulp.src(
-                [basePath + '/**/*.js', '!' + basePath + '/app/js/*.js'])
+                [srcPath + '/**/*.js', '!' + srcPath + '/app/js/*.js',
+                 testPath + '/**/*.js'])
             .pipe(jshint({
                 browser: true,
                 node: true,
