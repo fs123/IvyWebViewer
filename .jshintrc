@@ -9,6 +9,7 @@
     "afterEach"  : false,
     "inject"     : false,
     "expect"     : false,
-    "bootstrapModeler" : false
+    "bootstrapModeler" : false,
+    "bootstrapViewer" : false
     }
 }

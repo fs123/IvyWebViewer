@@ -1,6 +1,7 @@
 'use strict';
 
 var Viewer = require('../../../node_modules/bpmn-js/lib/Viewer');
+var processLoader = require('../rest/IvyProcessLoader');
 
 function IvyWebViewer(options) {
     Viewer.call(this, options);
@@ -10,6 +11,11 @@ function IvyWebViewer(options) {
 
 IvyWebViewer.prototype = Object.create(Viewer.prototype);
 
+
+IvyWebViewer.prototype.loadProcess = function(pid) {
+    processLoader.loadProcess(pid);
+};
+
 module.exports = IvyWebViewer;
 
 IvyWebViewer.prototype._ivyModules = [
@@ -17,7 +23,8 @@ IvyWebViewer.prototype._ivyModules = [
     require('../feature/IvyMarker'),
     require('../feature/IvyOverlays'),
     require('../feature/IvyProcess'),
-    require('../feature/IvyNavigation')
+    require('../feature/IvyNavigation'),
+    require('../feature/IvyEvent')
 ];
 
 IvyWebViewer.prototype._modules = [].concat(

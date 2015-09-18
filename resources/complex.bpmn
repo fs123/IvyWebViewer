@@ -26,7 +26,7 @@
             <flowNodeRef>MERGE</flowNodeRef>
         </lane>
     </laneSet>
-    <startEvent id="START" name="Notices&#10;QR code">
+    <startEvent id="START" name="SendEvent: test1">
         <outgoing>FLOW_START_TO_MERGE</outgoing>
     </startEvent>
     <userTask completionQuantity="1" id="SCAN_QR_CODE" isForCompensation="false" name="Scan QR code" startQuantity="1">

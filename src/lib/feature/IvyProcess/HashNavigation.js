@@ -1,6 +1,6 @@
 'use strict';
 
-function HashNavigation(ivyProcess, eventBus, restClient) {
+function HashNavigation(ivyProcess, eventBus) {
 
     var getPidFromUrl = function (hash) {
         var pidSeparator = hash.indexOf('-');
@@ -28,10 +28,13 @@ function HashNavigation(ivyProcess, eventBus, restClient) {
     };
 
     function resetHash() {
-        updateHash(global.ivyviewer.loadedProcessPid);
+        updateHash({pid: global.ivyviewer.loadedProcessPid});
     }
 
     var updateHash = function (event) {
+        if (!event.pid) {
+            return;
+        }
         global.ivyviewer.loadedProcessPid = event.pid;
         if (getPidFromUrl(location.hash) === event.pid) {
             return;
@@ -44,6 +47,6 @@ function HashNavigation(ivyProcess, eventBus, restClient) {
     window.onhashchange = onHashChange;
 }
 
-HashNavigation.$inject = ['ivyProcess', 'eventBus', '_restClient'];
+HashNavigation.$inject = ['ivyProcess', 'eventBus'];
 
 module.exports = HashNavigation;
