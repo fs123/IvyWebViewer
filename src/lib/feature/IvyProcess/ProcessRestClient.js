@@ -10,6 +10,7 @@ function ProcessRestClient(_restClientDesigner) {
     return {
         getProcesses : client.getProcesses,
         findCallersOfProcess: client.findCallersOfProcess,
+        findProcessBySignature: client.findProcessBySignature,
         getProcess: client.getProcess
     };
 }

@@ -33,6 +33,7 @@ function IvyProcess(restClient, eventBus) {
     };
 
     this.findCallersOfProcess = restClient.findCallersOfProcess;
+    this.findProcessBySignature = restClient.findProcessBySignature;
     this.loadProcess = loadProcess;
 }
 
