@@ -5,6 +5,9 @@ var MARKER_EXECUTED_ELEMENT = 'executed-element',
 
 function IvyMarker(canvas, elementRegistry) {
 
+    //this._canvas = canvas;
+    //this._elementRegistry = elementRegistry;
+
     /**
      * Iterates the element id's and highlights each, which occurrs in the model.
      *
@@ -45,9 +48,9 @@ function IvyMarker(canvas, elementRegistry) {
 
     var highlightSequenceFlow = function (element) {
         var djsVisual = document.querySelectorAll('*[data-element-id=' + element.id + '] .djs-visual')[0]; // get the first (and only) element
-        if(djsVisual.childNodes[1]) {
-            return;
-        }
+
+        checkElementInDom(djsVisual, element.id);
+
         var arrow = djsVisual.firstChild;
         // clone the arrow and set another CSS style (no marker-end, wider stroke, less opacity, ...)
         var arrowClone = arrow.cloneNode(true);
@@ -60,30 +63,50 @@ function IvyMarker(canvas, elementRegistry) {
     var highlightElement = function (element) {
         // set the rounded corners directly on the SVG element since it can not be set via CSS
         var djsOutline = document.querySelectorAll('*[data-element-id=' + element.id + '] .djs-outline')[0]; // get the first (and only) element
+
+        checkElementInDom(djsOutline, element.id);
+
         djsOutline.setAttribute('rx', '10px');
         djsOutline.setAttribute('ry', '10px');
+
         // add the marker
         canvas.addMarker(element, MARKER_EXECUTED_ELEMENT);
     };
 
     var unhighlightSequenceFlow = function (element) {
         var djsVisual = document.querySelectorAll('*[data-element-id=' + element.id + '] .djs-visual')[0]; // get the first (and only) element
+
+        checkElementInDom(djsVisual, element.id);
+
         var arrowClone = djsVisual.childNodes[1];
         if(arrowClone) {
             arrowClone.remove();
         }
     };
 
-    var unhighlightElement = function (element) {
+   var unhighlightElement = function (element) {
         var djsOutline = document.querySelectorAll('*[data-element-id=' + element.id + '] .djs-outline')[0]; // get the first (and only) element
+
+       checkElementInDom(djsOutline, element.id);
+
         djsOutline.removeAttribute('rx');
         djsOutline.removeAttribute('ry');
+
         // add the marker
         canvas.removeMarker(element, MARKER_EXECUTED_ELEMENT);
     };
 
+    function checkElementInDom(element, elementId) {
+
+        if (typeof element === 'undefined' || element.childNodes[1]) {
+            throw new ReferenceError('Element with id [' + elementId + '] was not found in DOM.');
+        }
+    }
+
+
     this.highlightExecutedElements = highlightElementsById;
     this.unhighlightAllElements = unhighlightAll;
+    this.getElementRegistry = function() { return elementRegistry; }; // TODO: just for testing, remove later!
 }
 
 IvyMarker.$inject = ['canvas', 'elementRegistry'];
