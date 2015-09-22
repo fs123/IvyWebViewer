@@ -7,7 +7,7 @@ var gulp = require('gulp'),
  */
 gulp.task('karma:single', function (done) {
     new Server({
-        configFile: __dirname + '/../../test/karma.conf.js',
+        configFile: __dirname + '/../../test/conf/karma.conf.js',
         singleRun: true,
         autoWatch: false
     }, done).start();

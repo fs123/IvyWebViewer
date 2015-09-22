@@ -5,9 +5,6 @@ var MARKER_EXECUTED_ELEMENT = 'executed-element',
 
 function IvyMarker(canvas, elementRegistry) {
 
-    //this._canvas = canvas;
-    //this._elementRegistry = elementRegistry;
-
     /**
      * Iterates the element id's and highlights each, which occurrs in the model.
      *
@@ -36,7 +33,7 @@ function IvyMarker(canvas, elementRegistry) {
     var highlightElementById = function (elementId) {
         var element = elementRegistry.get(elementId);
         if (!element) {
-            return;
+            throw new ReferenceError('Element with id [' + elementId + '] was not found in element registry.');
         }
 
         if (element.type === 'bpmn:SequenceFlow') {
@@ -50,6 +47,11 @@ function IvyMarker(canvas, elementRegistry) {
         var djsVisual = document.querySelectorAll('*[data-element-id=' + element.id + '] .djs-visual')[0]; // get the first (and only) element
 
         checkElementInDom(djsVisual, element.id);
+
+        // abort in case that a highlighting sequence flow already exists
+        if(djsVisual.childNodes[1]) {
+            return;
+        }
 
         var arrow = djsVisual.firstChild;
         // clone the arrow and set another CSS style (no marker-end, wider stroke, less opacity, ...)
@@ -80,7 +82,9 @@ function IvyMarker(canvas, elementRegistry) {
 
         var arrowClone = djsVisual.childNodes[1];
         if(arrowClone) {
-            arrowClone.remove();
+            // do not remove node directly like this: arrowClone.remove();
+            // --> PhantomJS does not support this, see https://github.com/ariya/phantomjs/issues/10970
+            djsVisual.removeChild(arrowClone);
         }
     };
 
@@ -97,16 +101,13 @@ function IvyMarker(canvas, elementRegistry) {
     };
 
     function checkElementInDom(element, elementId) {
-
-        if (typeof element === 'undefined' || element.childNodes[1]) {
+        if (typeof element === 'undefined') {
             throw new ReferenceError('Element with id [' + elementId + '] was not found in DOM.');
         }
     }
 
-
     this.highlightExecutedElements = highlightElementsById;
     this.unhighlightAllElements = unhighlightAll;
-    this.getElementRegistry = function() { return elementRegistry; }; // TODO: just for testing, remove later!
 }
 
 IvyMarker.$inject = ['canvas', 'elementRegistry'];
