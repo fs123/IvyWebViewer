@@ -3,11 +3,22 @@ var gulp = require('gulp'),
     mocha = require('gulp-mocha');
 
 /**
- * Run test once and exit
+ * Run integration tests once and exit
  */
-gulp.task('karma:single', function (done) {
+gulp.task('karma:integration', function (done) {
     new Server({
-        configFile: __dirname + '/../../test/conf/karma.conf.js',
+        configFile: __dirname + '/../../test/conf/karma.integration.conf.js',
+        singleRun: true,
+        autoWatch: false
+    }, done).start();
+});
+
+/**
+ * Run module tests once and exit
+ */
+gulp.task('karma:module', function (done) {
+    new Server({
+        configFile: __dirname + '/../../test/conf/karma.module.conf.js',
         singleRun: true,
         autoWatch: false
     }, done).start();

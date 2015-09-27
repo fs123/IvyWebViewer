@@ -3,7 +3,7 @@
 var BpmnViewer = require('../../../src/lib/IvyWebViewer/IvyWebViewer.js');
 var xml = require('../../fixtures/simple.bpmn');
 
-describe('IvyMarker', function () {
+describe('IvyMarker integration test', function () {
 
     var container;
     var ivyMarker;
@@ -28,6 +28,7 @@ describe('IvyMarker', function () {
 
     it('should bootstrap', function (done) {
         createViewer(xml, function (err, warnings, bpmnViewer) {
+            console.log(document);
             expect(bpmnViewer).to.be.defined;
             expect(bpmnViewer.get('ivyMarker')).to.be.defined;
             expect(ivyMarker).to.be.defined;

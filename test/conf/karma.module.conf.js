@@ -6,7 +6,7 @@ module.exports = function (karma) {
         frameworks: ['browserify', 'mocha', 'chai'],
 
         files: [
-            'test/spec/**/*Spec.js'
+            'test/spec/**/*ModuleSpec.js'
         ],
 
         preprocessors: {
