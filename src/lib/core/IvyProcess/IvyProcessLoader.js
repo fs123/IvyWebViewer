@@ -1,6 +1,6 @@
 'use strict';
 
-var processRestClient = require('./ProcessRestClient');
+var processRestClient = require('./../IvyRestClient/ProcessRestClient');
 
 function createIvyProcessLoader() {
 

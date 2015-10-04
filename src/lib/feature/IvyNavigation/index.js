@@ -3,7 +3,7 @@ module.exports = {
         //require('../PopupMenuFix'),
         require('bpmn-js/node_modules/diagram-js/lib/features/context-pad'),
         require('bpmn-js/node_modules/diagram-js/lib/features/popup-menu'),
-        require('../IvyProcess')
+        require('../../core/IvyProcess')
     ],
     __init__: [ 'ivyNavigation' ],
     ivyNavigation: [ 'type', require('./IvyNavigation') ]

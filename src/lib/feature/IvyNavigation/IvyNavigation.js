@@ -10,10 +10,6 @@ function IvyNavigation(contextPad, ivyProcess, popupMenu, canvas) {
         ivyProcess.loadProcess(pid);
     };
 
-    var loadCallingDialog = function(event, element) {
-
-    };
-
     var loadCallableProcess = function(event, element) {
         var signature = ModelUtil.getExtensionValue(element, 'ivy:processCall');
 
@@ -91,14 +87,6 @@ function IvyNavigation(contextPad, ivyProcess, popupMenu, canvas) {
             action: {
                 click: showCallerProcess
             }
-        },
-        loadCallingDialog: {
-            group: 'tools',
-            className: 'glyphicon-eye-open',
-            title: 'Go to User Dialog',
-            action: {
-                click: loadCallingDialog
-            }
         }
 
     };
@@ -110,9 +98,6 @@ function IvyNavigation(contextPad, ivyProcess, popupMenu, canvas) {
         var zClass = ModelUtil.getExtensionValue(element, 'ivy:zClass');
         if (zClass === 'StartSub') {
             return [handlers.showCallerProcesses];
-        }
-        if (zClass === 'RichDialog') {
-            return [handlers.loadCallingDialog];
         }
         return [];
     };
