@@ -1,7 +1,7 @@
 'use strict';
 
 var Viewer = require('../../../node_modules/bpmn-js/lib/Viewer');
-var processLoader = require('../rest/IvyProcessLoader');
+var processLoader = require('./../core/rest/IvyProcessLoader');
 
 function IvyWebViewer(options) {
     Viewer.call(this, options);

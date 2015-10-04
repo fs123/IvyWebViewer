@@ -4,8 +4,6 @@ var ModelUtil = require('../../core/ModelUtil');
 
 function IvyRenderer(bpmnRenderer, ivyElements) {
 
-    var decoratedDrawShape = bpmnRenderer.drawShape;
-
     function getIvyType(element) {
         if (element.type.substring(0, 5) !== 'bpmn:') {
             return null;
@@ -36,6 +34,7 @@ function IvyRenderer(bpmnRenderer, ivyElements) {
         return null;
     }
 
+    var decoratedDrawShape = bpmnRenderer.drawShape;
     var decoratorDrawShape = function(parent, element) {
         var elementHandler = getElementHandler(element);
         if (elementHandler) {

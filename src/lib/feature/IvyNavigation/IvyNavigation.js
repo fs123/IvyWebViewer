@@ -1,7 +1,6 @@
 'use strict';
 
-var isFunction = require('lodash/lang/isFunction'),
-    forEach = require('lodash/collection/forEach');
+var forEach = require('lodash/collection/forEach');
 
 var ModelUtil = require('../../core/ModelUtil');
 
@@ -70,12 +69,10 @@ function IvyNavigation(contextPad, ivyProcess, popupMenu, canvas) {
         var top = padRect.top - diagramRect.top;
         var left = padRect.left - diagramRect.left;
 
-        var pos = {
+        return {
             x: left,
             y: top + padRect.height + Y_OFFSET
         };
-
-        return pos;
     }
 
     var handlers = {

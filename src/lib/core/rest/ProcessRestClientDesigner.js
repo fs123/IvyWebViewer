@@ -15,19 +15,33 @@ function createProcessRestClientDesigner() {
         });
     };
 
-    var _findCallersOfProcess = function (pid) {
-        return [];
+    var _findCallersOfProcess = function(pid, sucessCallback) {
+        restClient.get("designer/process/services/findCallersOfProcess/" + pid, {}, function (data, response) {
+            if (response.statusCode === 200) {
+                sucessCallback(data, response);
+            }
+        });
     };
+
+    var _findProcessBySignature = function(signature, sucessCallback) {
+        restClient.get("designer/process/services/findProcessBySignature/" + signature, {}, function (data, response) {
+            if (response.statusCode === 200) {
+                sucessCallback(data, response);
+            }
+        });
+    };
+
 
     var _getProcesses = function () {
         return [];
     };
 
     return {
-        getProcesses: _getProcesses,
+        getProcesses : _getProcesses,
         findCallersOfProcess: _findCallersOfProcess,
+        findProcessBySignature: _findProcessBySignature,
         getProcess: _getProcess,
-        testConnection: function () {
+        testConnection: function() {
             return true;
         }
     };

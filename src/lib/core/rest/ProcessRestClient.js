@@ -1,18 +1,19 @@
 'use strict';
 
-var mock = require('./ProcessRestClientMock');
+//var clientMock = require('./ProcessRestClientMock');
+var clientDesigner = require('./ProcessRestClientDesigner');
 
-function ProcessRestClient(_restClientDesigner) {
+function createProcessRestClient() {
 
     //var client = ivyRestClient.testConnection() ? ivyRestClient : mock;
-    var client = _restClientDesigner;
+    var client = clientDesigner;
 
     return {
-        getProcesses : client.getProcesses,
+        getProcesses: client.getProcesses,
         findCallersOfProcess: client.findCallersOfProcess,
         findProcessBySignature: client.findProcessBySignature,
         getProcess: client.getProcess
     };
 }
 
-module.exports = ProcessRestClient;
+module.exports = createProcessRestClient();

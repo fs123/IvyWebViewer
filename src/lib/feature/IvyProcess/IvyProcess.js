@@ -1,22 +1,22 @@
 'use strict';
+
 /**
  * Firing Events:
  * - process.loading
  * - process.loaded
  * - process.loadFailed
- * @param restClient
+ * @param processRestClient
  * @param eventBus
  * @constructor
  */
-
-function IvyProcess(restClient, eventBus) {
+function IvyProcess(processRestClient, eventBus) {
 
     var loadProcess = function(pid) {
         if (!pid) {
             console.error("Invalid parameter pid: " + pid);
         }
         eventBus.fire('process.loading', {pid: pid});
-        restClient.getProcess(pid,
+        processRestClient.getProcess(pid,
                 function (process){
                     global.ivyviewer.importXML(process, function(err){
                         var eventBus = global.ivyviewer.get('eventBus');
@@ -32,11 +32,11 @@ function IvyProcess(restClient, eventBus) {
             );
     };
 
-    this.findCallersOfProcess = restClient.findCallersOfProcess;
-    this.findProcessBySignature = restClient.findProcessBySignature;
+    this.findCallersOfProcess = processRestClient.findCallersOfProcess;
+    this.findProcessBySignature = processRestClient.findProcessBySignature;
     this.loadProcess = loadProcess;
 }
 
-IvyProcess.$inject = ['_restClient', 'eventBus'];
+IvyProcess.$inject = ['processRestClient', 'eventBus'];
 
 module.exports = IvyProcess;
