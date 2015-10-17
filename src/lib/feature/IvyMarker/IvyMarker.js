@@ -1,11 +1,6 @@
 'use strict';
 
-var MARKER_EXECUTED_ELEMENT = 'executed-element',
-    MARKER_EXECUTED_SEQUENCE = 'executed-sequence',
-    MARKER_CURRENT_ELEMENT = 'current-element',
-    MARKER_CURRENT_SEQUENCE = 'current-sequence',
-    MARKER_ERROR_ELEMENT = 'error-element',
-    MARKER_ERROR_SEQUENCE = 'error-sequence';
+var MARKER_EXECUTED_ELEMENT = 'executed-element';
 
 function IvyMarker(canvas, elementRegistry) {
 
@@ -17,7 +12,7 @@ function IvyMarker(canvas, elementRegistry) {
      * @private
      */
     var _highlightExecutedElements = function (elementIds) {
-        elementIds.forEach(function(entry) {
+        elementIds.forEach(function (entry) {
             highlightElementById(entry, 'executed');
         });
         return elementIds;
@@ -29,7 +24,7 @@ function IvyMarker(canvas, elementRegistry) {
      * @param elementId
      * @private
      */
-    var _highlightCurrentElement = function(elementId) {
+    var _highlightCurrentElement = function (elementId) {
         highlightElementById(elementId, 'current');
         return elementId;
     };
@@ -40,8 +35,8 @@ function IvyMarker(canvas, elementRegistry) {
      * @param elementIds
      * @private
      */
-    var _highlightErrorElements = function(elementIds) {
-        elementIds.forEach(function(entry) {
+    var _highlightErrorElements = function (elementIds) {
+        elementIds.forEach(function (entry) {
             highlightElementById(entry, 'error');
         });
         return elementIds;
@@ -54,8 +49,8 @@ function IvyMarker(canvas, elementRegistry) {
      */
     var _unhighlightAllElements = function () {
         var allElements = elementRegistry.getAll();
-        allElements.forEach(function(element) {
-            if(element.type === 'bpmn:SequenceFlow') {
+        allElements.forEach(function (element) {
+            if (element.type === 'bpmn:SequenceFlow') {
                 unhighlightSequenceFlow(element);
             } else {
                 unhighlightElement(element);
@@ -82,7 +77,7 @@ function IvyMarker(canvas, elementRegistry) {
         checkElementInDom(djsVisual, element.id);
 
         // abort in case that a highlighting sequence flow already exists
-        if(djsVisual.childNodes[1]) {
+        if (djsVisual.childNodes[1]) {
             return;
         }
 
@@ -90,19 +85,10 @@ function IvyMarker(canvas, elementRegistry) {
         // clone the sequence and set another CSS style (no marker-end, wider stroke, less opacity, ...)
         var sequenceClone = sequence.cloneNode(true);
         sequenceClone.removeAttribute('style');
-        switch(type) {
-            case 'executed':
-                sequenceClone.setAttribute('class', MARKER_EXECUTED_SEQUENCE);
-                break;
-            case 'current':
-                sequenceClone.setAttribute('class', MARKER_CURRENT_SEQUENCE);
-                break;
-            case 'error':
-                sequenceClone.setAttribute('class', MARKER_ERROR_SEQUENCE);
-                break;
-            default:
-                console.log('Invalid type for highlighting [' + type + '].');
-                return;
+
+        // add the marker
+        if(marker.hasOwnProperty(type + 'Sequence')) {
+            marker[type + 'Sequence'](sequenceClone);
         }
 
         // append the highlight sequence
@@ -119,19 +105,8 @@ function IvyMarker(canvas, elementRegistry) {
         djsOutline.setAttribute('ry', '10px');
 
         // add the marker
-        switch(type) {
-            case 'executed':
-                canvas.addMarker(element, MARKER_EXECUTED_ELEMENT);
-                break;
-            case 'current':
-                canvas.addMarker(element, MARKER_CURRENT_ELEMENT);
-                break;
-            case 'error':
-                canvas.addMarker(element, MARKER_ERROR_ELEMENT);
-                break;
-            default:
-                console.log('Invalid type for highlighting [' + type + '].');
-                return;
+        if(marker.hasOwnProperty(type + 'Element')) {
+            marker[type + 'Element'](element);
         }
     };
 
@@ -141,17 +116,17 @@ function IvyMarker(canvas, elementRegistry) {
         checkElementInDom(djsVisual, element.id);
 
         var sequenceClone = djsVisual.childNodes[1];
-        if(sequenceClone) {
+        if (sequenceClone) {
             // do not remove node directly like this: sequenceClone.remove();
             // --> PhantomJS does not support this, see https://github.com/ariya/phantomjs/issues/10970
             djsVisual.removeChild(sequenceClone);
         }
     };
 
-   var unhighlightElement = function (element) {
+    var unhighlightElement = function (element) {
         var djsOutline = document.querySelectorAll('*[data-element-id=' + element.id + '] .djs-outline')[0]; // get the first (and only) element
 
-       checkElementInDom(djsOutline, element.id);
+        checkElementInDom(djsOutline, element.id);
 
         djsOutline.removeAttribute('rx');
         djsOutline.removeAttribute('ry');
@@ -165,6 +140,27 @@ function IvyMarker(canvas, elementRegistry) {
             throw new ReferenceError('Element with id [' + elementId + '] was not found in DOM.');
         }
     }
+
+    var marker = {
+        executedElement: function(element) {
+            canvas.addMarker(element, 'executed-element');
+        },
+        executedSequence: function(sequenceClone) {
+            sequenceClone.setAttribute('class', 'executed-sequence');
+        },
+        currentElement: function(element) {
+            canvas.addMarker(element, 'current-element');
+        },
+        currentSequence: function(sequenceClone) {
+            sequenceClone.setAttribute('class', 'current-sequence');
+        },
+        errorElement: function(element) {
+            canvas.addMarker(element, 'error-element');
+        },
+        errorSequence: function(sequenceClone) {
+            sequenceClone.setAttribute('class', 'error-sequence');
+        }
+    };
 
     this.highlightExecutedElements = _highlightExecutedElements;
     this.highlightCurrentElement = _highlightCurrentElement;
