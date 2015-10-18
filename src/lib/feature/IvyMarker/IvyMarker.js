@@ -4,42 +4,42 @@ var MARKER_EXECUTED_ELEMENT = 'executed-element';
 
 function IvyMarker(canvas, elementRegistry) {
 
-    // the initial state is 'undefined'
-    var state;
-
     //var markerStatePrototype = {
-    //    commonMethod: function() { console.log('This is a state common method'); }
+    //    highlight: function() { console.log('This is the state common highlight method'); },
+    //    unhighlight: function() { console.log('This is the state common unhighlight method'); }
     //};
 
     var states = {
-        none: {
-            highlight: function(elementIds) {},
-            unhighlight: function() {}
-        },
         executed: {
             //__proto__ : markerStatePrototype, // NOTE: this is deprecated and should be avoided due to performance issues!
-            highlight: function(elementIds) {
+            highlight: function (elementIds) {
                 elementIds.forEach(function (entry) {
                     highlightElementById(entry, 'executed');
                 });
             },
-            unhighlight: function() {}
+            unhighlight: function () {
+                unhighlightElements('executed-element');
+            }
         },
         current: {
-            highlight: function(elementIds) {
+            highlight: function (elementIds) {
                 elementIds.forEach(function (entry) {
                     highlightElementById(entry, 'current');
                 });
             },
-            unhighlight: function() {}
+            unhighlight: function () {
+                unhighlightElements('current-element');
+            }
         },
         error: {
-            highlight: function(elementIds) {
+            highlight: function (elementIds) {
                 elementIds.forEach(function (entry) {
                     highlightElementById(entry, 'error');
                 });
             },
-            unhighlight: function() {}
+            unhighlight: function () {
+                unhighlightElements('error-element');
+            }
         }
     };
 
@@ -83,15 +83,11 @@ function IvyMarker(canvas, elementRegistry) {
      * @private
      */
     var _unhighlightAllElements = function () {
-        this.state.unhighlight();
-        //var allElements = elementRegistry.getAll();
-        //allElements.forEach(function (element) {
-        //    if (element.type === 'bpmn:SequenceFlow') {
-        //        unhighlightSequenceFlow(element);
-        //    } else {
-        //        unhighlightElement(element);
-        //    }
-        //});
+        for (var property in states) {
+            if(states.hasOwnProperty(property)) {
+                states[property].unhighlight();
+            }
+        }
     };
 
     var highlightElementById = function (elementId, type) {
@@ -123,9 +119,7 @@ function IvyMarker(canvas, elementRegistry) {
         sequenceClone.removeAttribute('style');
 
         // add the marker
-        if(marker.hasOwnProperty(type + 'Sequence')) {
-            marker[type + 'Sequence'](sequenceClone);
-        }
+        sequenceClone.setAttribute('class', type + '-sequence');
 
         // append the highlight sequence
         djsVisual.appendChild(sequenceClone);
@@ -141,9 +135,18 @@ function IvyMarker(canvas, elementRegistry) {
         djsOutline.setAttribute('ry', '10px');
 
         // add the marker
-        if(marker.hasOwnProperty(type + 'Element')) {
-            marker[type + 'Element'](element);
-        }
+        canvas.addMarker(element, type + '-element');
+    };
+
+    var unhighlightElements = function(type) {
+        var allElements = elementRegistry.getAll();
+        allElements.forEach(function (element) {
+            if (element.type === 'bpmn:SequenceFlow') {
+                unhighlightSequenceFlow(element);
+            } else {
+                unhighlightElement(element, type);
+            }
+        });
     };
 
     var unhighlightSequenceFlow = function (element) {
@@ -159,7 +162,7 @@ function IvyMarker(canvas, elementRegistry) {
         }
     };
 
-    var unhighlightElement = function (element) {
+    var unhighlightElement = function (element, type) {
         var djsOutline = document.querySelectorAll('*[data-element-id=' + element.id + '] .djs-outline')[0]; // get the first (and only) element
 
         checkElementInDom(djsOutline, element.id);
@@ -168,7 +171,7 @@ function IvyMarker(canvas, elementRegistry) {
         djsOutline.removeAttribute('ry');
 
         // add the marker
-        canvas.removeMarker(element, MARKER_EXECUTED_ELEMENT);
+        canvas.removeMarker(element, type);
     };
 
     function checkElementInDom(element, elementId) {
@@ -177,31 +180,34 @@ function IvyMarker(canvas, elementRegistry) {
         }
     }
 
-    var marker = {
-        executedElement: function(element) {
-            canvas.addMarker(element, 'executed-element');
-        },
-        executedSequence: function(sequenceClone) {
-            sequenceClone.setAttribute('class', 'executed-sequence');
-        },
-        currentElement: function(element) {
-            canvas.addMarker(element, 'current-element');
-        },
-        currentSequence: function(sequenceClone) {
-            sequenceClone.setAttribute('class', 'current-sequence');
-        },
-        errorElement: function(element) {
-            canvas.addMarker(element, 'error-element');
-        },
-        errorSequence: function(sequenceClone) {
-            sequenceClone.setAttribute('class', 'error-sequence');
-        }
-    };
+    /*
+     * Public methods
+     */
 
     this.highlightExecutedElements = _highlightExecutedElements;
     this.highlightCurrentElement = _highlightCurrentElement;
     this.highlightErrorElements = _highlightErrorElements;
-    this.unhighlightAllElements = _unhighlightAllElements;
+
+    this.unhighlightExecutedElements = function() {
+        this.state = states.executed;
+        this.state.unhighlight();
+    };
+    this.unhighlightCurrentElements = function() {
+        this.state = states.current;
+        this.state.unhighlight();
+    };
+    this.unhighlightErrorElements = function() {
+        this.state = states.error;
+        this.state.unhighlight();
+    };
+
+    this.unhighlightAllElements = function () {
+        for (var property in states) {
+            if(states.hasOwnProperty(property)) {
+                states[property].unhighlight();
+            }
+        }
+    };
 }
 
 IvyMarker.$inject = ['canvas', 'elementRegistry'];

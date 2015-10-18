@@ -47,8 +47,9 @@ var initIvyMarker = function() {
         ivyMarker.highlightExecutedElements(executedElementIds);
     };
     document.getElementById('reset-executed-path-button').onclick = function() {
-        ivyMarker.unhighlightAllElements();
+        ivyMarker.unhighlightExecutedElements();
     };
+
 
     /*
      * CURRENT ELEMENT
@@ -56,12 +57,18 @@ var initIvyMarker = function() {
     document.getElementById('mark-current-path-button').onclick = function() {
         ivyMarker.highlightCurrentElement(['SCAN_QR_CODE']);
     };
+    document.getElementById('reset-current-path-button').onclick = function() {
+        ivyMarker.unhighlightCurrentElements();
+    };
 
     /*
      * ERROR ELEMENTS
      */
     document.getElementById('mark-error-path-button').onclick = function() {
         ivyMarker.highlightErrorElements(['SCAN_QR_CODE', 'FLOW_SCAN_TO_SCAN_OK', 'SCAN_OK']);
+    };
+    document.getElementById('reset-error-path-button').onclick = function() {
+        ivyMarker.unhighlightErrorElements();
     };
 };
 
