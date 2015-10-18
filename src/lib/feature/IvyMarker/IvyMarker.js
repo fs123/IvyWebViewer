@@ -9,6 +9,9 @@ function IvyMarker(canvas, elementRegistry) {
     //    unhighlight: function() { console.log('This is the state common unhighlight method'); }
     //};
 
+    // This variable declaration is superfluous, but points out the State pattern and serves the understandability.
+    var state;
+
     var states = {
         executed: {
             //__proto__ : markerStatePrototype, // NOTE: this is deprecated and should be avoided due to performance issues!
