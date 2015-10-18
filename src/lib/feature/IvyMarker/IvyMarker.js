@@ -4,6 +4,45 @@ var MARKER_EXECUTED_ELEMENT = 'executed-element';
 
 function IvyMarker(canvas, elementRegistry) {
 
+    // the initial state is 'undefined'
+    var state;
+
+    //var markerStatePrototype = {
+    //    commonMethod: function() { console.log('This is a state common method'); }
+    //};
+
+    var states = {
+        none: {
+            highlight: function(elementIds) {},
+            unhighlight: function() {}
+        },
+        executed: {
+            //__proto__ : markerStatePrototype, // NOTE: this is deprecated and should be avoided due to performance issues!
+            highlight: function(elementIds) {
+                elementIds.forEach(function (entry) {
+                    highlightElementById(entry, 'executed');
+                });
+            },
+            unhighlight: function() {}
+        },
+        current: {
+            highlight: function(elementIds) {
+                elementIds.forEach(function (entry) {
+                    highlightElementById(entry, 'current');
+                });
+            },
+            unhighlight: function() {}
+        },
+        error: {
+            highlight: function(elementIds) {
+                elementIds.forEach(function (entry) {
+                    highlightElementById(entry, 'error');
+                });
+            },
+            unhighlight: function() {}
+        }
+    };
+
     /**
      * Iterates the element id's and highlights each, which occurs in the model.
      *
@@ -12,10 +51,8 @@ function IvyMarker(canvas, elementRegistry) {
      * @private
      */
     var _highlightExecutedElements = function (elementIds) {
-        elementIds.forEach(function (entry) {
-            highlightElementById(entry, 'executed');
-        });
-        return elementIds;
+        this.state = states.executed;
+        this.state.highlight(elementIds);
     };
 
     /**
@@ -24,9 +61,9 @@ function IvyMarker(canvas, elementRegistry) {
      * @param elementId
      * @private
      */
-    var _highlightCurrentElement = function (elementId) {
-        highlightElementById(elementId, 'current');
-        return elementId;
+    var _highlightCurrentElement = function (elementIds) {
+        this.state = states.current;
+        this.state.highlight(elementIds);
     };
 
     /**
@@ -36,10 +73,8 @@ function IvyMarker(canvas, elementRegistry) {
      * @private
      */
     var _highlightErrorElements = function (elementIds) {
-        elementIds.forEach(function (entry) {
-            highlightElementById(entry, 'error');
-        });
-        return elementIds;
+        this.state = states.error;
+        this.state.highlight(elementIds);
     };
 
     /**
@@ -48,14 +83,15 @@ function IvyMarker(canvas, elementRegistry) {
      * @private
      */
     var _unhighlightAllElements = function () {
-        var allElements = elementRegistry.getAll();
-        allElements.forEach(function (element) {
-            if (element.type === 'bpmn:SequenceFlow') {
-                unhighlightSequenceFlow(element);
-            } else {
-                unhighlightElement(element);
-            }
-        });
+        this.state.unhighlight();
+        //var allElements = elementRegistry.getAll();
+        //allElements.forEach(function (element) {
+        //    if (element.type === 'bpmn:SequenceFlow') {
+        //        unhighlightSequenceFlow(element);
+        //    } else {
+        //        unhighlightElement(element);
+        //    }
+        //});
     };
 
     var highlightElementById = function (elementId, type) {

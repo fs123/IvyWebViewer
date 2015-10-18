@@ -54,7 +54,7 @@ var initIvyMarker = function() {
      * CURRENT ELEMENT
      */
     document.getElementById('mark-current-path-button').onclick = function() {
-        ivyMarker.highlightCurrentElement('SCAN_QR_CODE');
+        ivyMarker.highlightCurrentElement(['SCAN_QR_CODE']);
     };
 
     /*
