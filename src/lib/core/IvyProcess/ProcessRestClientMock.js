@@ -1,20 +1,23 @@
+
 'use strict';
 
 var fs = require('fs');
 
-
-function RestClient() {
+function ProcessRestClientMock() {
     var BACK_REFERENCE = "StartEvent_1";
     var PID1 = "EAE484DC4A04";
     var PID2 = "MyCallableProcess_X";
+    var PID3 = "14FDA2E529E727AC";
 
     // inlined in result file via brfs
-    var callerProcess = fs.readFileSync(__dirname + '/../../../../resources/complex.bpmn', 'utf-8');
-    var callableProcess = fs.readFileSync(__dirname + '/../../../../resources/OpenProduct_Callable.bpmn', 'utf-8');
+    var callerProcess = fs.readFileSync(__dirname + '/../../../resources/complex.bpmn', 'utf-8');
+    var callableProcess = fs.readFileSync(__dirname + '/../../../resources/OpenProduct_Callable.bpmn', 'utf-8');
+    var simpleProcess = fs.readFileSync(__dirname + '/../../../resources/simple.bpmn', 'utf-8');
 
     var resources = {};
     resources[PID1] = callerProcess;
     resources[PID2] = callableProcess;
+    resources[PID3] = simpleProcess;
 
     var _getProcess = function(pid, sucessCallback, errorCallback) {
         sucessCallback(resources[pid]);
@@ -62,8 +65,11 @@ function RestClient() {
     return {
         getProcesses : _getProcesses,
         findCallersOfProcess: _findCallersOfProcess,
-        getProcess: _getProcess
+        getProcess: _getProcess,
+        testConnection: function() {
+            return true;
+        }
     };
 }
 
-module.exports = RestClient;
+module.exports = ProcessRestClientMock;

@@ -22,7 +22,7 @@ b = watchify(b);
 
 var bundle = function() {
     return b.bundle()
-        .pipe(source('showcases.js'))
+        .pipe(source('ivyViewerApp.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init({loadMaps: true}))
         //.pipe(uglify())
