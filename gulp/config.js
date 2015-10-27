@@ -2,12 +2,10 @@
 
 var config = {
     app: {
-        //start: "./src/app/showcases.js",
-        start: "./src/app/index.js",
-        src: "./src/app/",
-        res: "./resources/",
+        start: "./src/lib/IvyWebViewer/IvyWebViewer.js",
         assets: "./assets/",
-        dist: "./dist/app/"
+        dist: "./dist/",
+        tests: "./test"
     },
     demo: {
         dist: "./dist/demo"
