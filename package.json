@@ -47,6 +47,7 @@
     "log4js": "^0.6.26",
     "mocha": "^2.3.2",
     "mocha-test-container-support": "^0.1.0",
+    "node-rest-client": "^1.5.1",
     "path": "0.11.14",
     "phantomjs": "^1.9.18",
     "require-dir": "^0.3.0",
