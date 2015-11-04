@@ -23,8 +23,7 @@ IvyWebViewer.prototype._ivyModules = [
     require('../feature/IvyMarker'),
     require('../feature/IvyOverlays'),
     require('../feature/IvyHashNavigation'),
-    require('../feature/IvyNavigation'),
-    require('../feature/IvyEvent')
+    require('../feature/IvyNavigation')
 ];
 
 IvyWebViewer.prototype._modules = [].concat(

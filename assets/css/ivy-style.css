@@ -1,4 +1,4 @@
-.executed-arrow {
+.executed-sequence {
     stroke-width: 10px;
     stroke: #8888FF;
     opacity: 0.2;
@@ -7,5 +7,29 @@
 .djs-element.executed-element .djs-outline {
     visibility: visible;
     fill: #8888FF;
+    fill-opacity: 0.2;
+}
+
+.current-sequence {
+    stroke-width: 10px;
+    stroke: #07ff00;
+    opacity: 0.2;
+}
+
+.djs-element.current-element .djs-outline {
+    visibility: visible;
+    fill: #07FF00;
+    fill-opacity: 0.2;
+}
+
+.error-sequence {
+    stroke-width: 10px;
+    stroke: #ff473b;
+    opacity: 0.2;
+}
+
+.djs-element.error-element .djs-outline {
+    visibility: visible;
+    fill: #FF473B;
     fill-opacity: 0.2;
 }

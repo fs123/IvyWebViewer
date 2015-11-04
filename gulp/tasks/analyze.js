@@ -28,7 +28,7 @@ var analyseTask = function() {
     };
 
     return analyse();
-}
+};
 
 gulp.task('analyse', function() {
     return analyseTask()
