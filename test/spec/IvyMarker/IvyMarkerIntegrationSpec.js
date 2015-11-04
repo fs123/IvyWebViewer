@@ -87,7 +87,7 @@ describe('IvyMarker integration test', function () {
             var djsVisual = sequenceFlow_1_gfx.node.firstChild;
             expect(djsVisual.getAttribute('class')).to.equal('djs-visual');
             expect(djsVisual.childNodes.length).to.equal(2);
-            expect(djsVisual.lastChild.getAttribute('class')).to.equal('executed-arrow');
+            expect(djsVisual.lastChild.getAttribute('class')).to.equal('executed-sequence');
 
             done();
         });
@@ -113,7 +113,7 @@ describe('IvyMarker integration test', function () {
             expect(canvas.hasMarker(task_1, 'executed-element')).to.be.false;
             var djsVisual = sequenceFlow_1_gfx.node.firstChild;
             expect(djsVisual.childNodes.length).to.equal(1);
-            expect(djsVisual.lastChild.getAttribute('class')).to.not.equal('executed-arrow');
+            expect(djsVisual.lastChild.getAttribute('class')).to.not.equal('executed-sequence');
 
             done();
         });
