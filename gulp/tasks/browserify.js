@@ -13,6 +13,7 @@ var config = require('../config');
 
 
 var b = browserify({
+    standalone: 'IvyWebViewer',
     entries: config.app.start,
     debug: true // include source maps.
 });
