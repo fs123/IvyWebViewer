@@ -1,6 +1,5 @@
 'use strict';
 
-var gutil = require('gulp-util');
 var gulp = require('gulp');
 var path = require('path');
 var jshint = require('gulp-jshint');
@@ -22,13 +21,15 @@ var analyseTask = function() {
                 curly: true,
                 eqeqeq: true,
                 forin: true,
-                freeze: true}))
+                freeze: true,
+                expr: true
+            }))
             .pipe(jshint.reporter('jshint-stylish', {verbose: true}))
             .pipe(jshint.reporter('fail'));
     };
 
     return analyse();
-}
+};
 
 gulp.task('analyse', function() {
     return analyseTask()
