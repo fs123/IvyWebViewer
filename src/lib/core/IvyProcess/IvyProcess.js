@@ -1,15 +1,16 @@
 'use strict';
 
+var processRestClient = require('./ProcessRestClient');
+
 /**
  * Firing Events:
  * - process.loading
  * - process.loaded
  * - process.loadFailed
- * @param processRestClient
  * @param eventBus
  * @constructor
  */
-function IvyProcess(processRestClient, eventBus) {
+function IvyProcess(eventBus) {
 
     var loadProcess = function(pid) {
         if (!pid) {
@@ -37,6 +38,6 @@ function IvyProcess(processRestClient, eventBus) {
     this.loadProcess = loadProcess;
 }
 
-IvyProcess.$inject = ['processRestClient', 'eventBus'];
+IvyProcess.$inject = ['eventBus'];
 
 module.exports = IvyProcess;

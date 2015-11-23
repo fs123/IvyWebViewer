@@ -9,15 +9,15 @@ var Elements = function() {
     }
 
     function transformTaskElement(icon) {
-        icon.transform('scale(0.15, 0.15), translate(-60,-50)');
+        icon.transform('scale(0.15, 0.15), translate(-38, -38)');
     }
 
     function transformProcessStartEnd(icon) {
-        icon.transform('scale(0.15, 0.15), translate(-60,-50)');
+        icon.transform('scale(0.09, 0.09), translate(90, 100)');
     }
 
     function transformUserDialogStartEnd(icon) {
-        icon.transform('scale(0.09, 0.09) translate(60, 70)');
+        icon.transform('scale(0.085, 0.085) translate(60, 80)');
     }
 
     var drawHandlers = {

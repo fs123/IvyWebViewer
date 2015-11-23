@@ -1,75 +1,75 @@
-
 'use strict';
 
 var fs = require('fs');
 
 function ProcessRestClientMock() {
-    var BACK_REFERENCE = "StartEvent_1";
-    var PID1 = "EAE484DC4A04";
-    var PID2 = "MyCallableProcess_X";
-    var PID3 = "14FDA2E529E727AC";
+    var BACK_REFERENCE = "14FDF5E0A9A44A7D-f0";
+    var PID1 = "14FDF94A18479D58"; // CallIt.bpmn
+    var PID2 = "14FDF5E0A9A44A7D"; // CallMe.bpmn
 
     // inlined in result file via brfs
-    var callerProcess = fs.readFileSync(__dirname + '/../../../resources/complex.bpmn', 'utf-8');
-    var callableProcess = fs.readFileSync(__dirname + '/../../../resources/OpenProduct_Callable.bpmn', 'utf-8');
-    var simpleProcess = fs.readFileSync(__dirname + '/../../../resources/simple.bpmn', 'utf-8');
+    var callerProcess = fs.readFileSync(__dirname + '/../../../../resources/CallIt.bpmn', 'utf-8');
+    var callableProcess = fs.readFileSync(__dirname + '/../../../../resources/CallMe.bpmn', 'utf-8');
 
     var resources = {};
     resources[PID1] = callerProcess;
     resources[PID2] = callableProcess;
-    resources[PID3] = simpleProcess;
 
-    var _getProcess = function(pid, sucessCallback, errorCallback) {
+    var _getProcess = function(pid, sucessCallback) {
         sucessCallback(resources[pid]);
     };
 
-    var _findCallersOfProcess = function(pid) {
+    var _findCallersOfProcess = function(pid, sucessCallback) {
+        var data;
         if (pid !== BACK_REFERENCE) {
-            return [{
+            data = [{
                 name: "No caller process(es) found",
                 pid: "UNDEFINED"
             }];
+        } else {
+            data =  [
+                {
+                    "qualifiedProcessName": "CallIt",
+                    "processName": "CallIt",
+                    "callerName": "CallMe",
+                    "callerPid": "14FDF94A18479D58"
+                }
+            ];
         }
-        return [
-            {
-                path: "resources/complex.bpmn",
-                namespace: "",
-                name: "QR Code Scanner",
-                pid: PID1
-            },
-            {
-                path: "resources/complex.bpmn",
-                name: "Test QR Code Scanner",
-                pid: PID1
-            }
-        ];
+        sucessCallback(data);
     };
 
     var _getProcesses = function() {
         return [
             {
-                path: "resources/complex.bpmn",
+                path: "resources/CallIt.bpmn",
                 namespace: "",
-                name: "QR Code Scanner",
+                name: "Call It",
                 pid: PID1
             },
             {
-                path: "resources/complex.bpmn",
-                namespace: "",
-                name: "Callable Process",
+                path: "resources/CallMe.bpmn",
+                name: "Call Me",
                 pid: PID2
             }
         ];
     };
 
+    var _findProcessBySignature = function(signature, sucessCallback) {
+        if (signature == "CallMe:call()") {
+            var data = {
+                "pid": "14FDF5E0A9A44A7D"
+            };
+            sucessCallback(data);
+        }
+    };
+
     return {
         getProcesses : _getProcesses,
         findCallersOfProcess: _findCallersOfProcess,
-        getProcess: _getProcess,
-        testConnection: function() {
-            return true;
-        }
+        findProcessBySignature: _findProcessBySignature,
+        getProcess: _getProcess
     };
 }
 
-module.exports = ProcessRestClientMock;
+module.exports = ProcessRestClientMock();

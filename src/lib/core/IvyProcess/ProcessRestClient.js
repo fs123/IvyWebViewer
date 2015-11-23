@@ -1,12 +1,11 @@
 'use strict';
 
-//var clientMock = require('./ProcessRestClientMock');
+var clientMock = require('./ProcessRestClientMock');
 var clientDesigner = require('./ProcessRestClientDesigner');
 
 function createProcessRestClient() {
 
-    //var client = ivyRestClient.testConnection() ? ivyRestClient : mock;
-    var client = clientDesigner;
+    var client = (global.useMockService === true) ? clientMock : clientDesigner;
 
     return {
         getProcesses: client.getProcesses,

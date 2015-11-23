@@ -40,10 +40,7 @@ function createProcessRestClientDesigner() {
         getProcesses : _getProcesses,
         findCallersOfProcess: _findCallersOfProcess,
         findProcessBySignature: _findProcessBySignature,
-        getProcess: _getProcess,
-        testConnection: function() {
-            return true;
-        }
+        getProcess: _getProcess
     };
 
 }
